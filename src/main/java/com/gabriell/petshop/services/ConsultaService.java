@@ -40,16 +40,14 @@ public class ConsultaService {
         }
     }
 
-    public boolean attConsulta(Consulta consulta, Long id){
+    public Consulta attConsulta(Consulta consulta, Long id){
         Consulta object = buscaPorId(id);
 
-        object.setPet(consulta.getPet());
         object.setData(consulta.getData());
         object.setDescricao(consulta.getDescricao());
         object.setTratamento(consulta.getTratamento());
         object.setDiagnostico(consulta.getDiagnostico());
 
-        repository.save(object);
-        return true;
+        return repository.save(object);
     }
 }

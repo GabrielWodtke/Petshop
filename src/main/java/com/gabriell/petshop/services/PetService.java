@@ -38,17 +38,15 @@ public class PetService {
         }
     }
 
-    public boolean editarPet(Long id, Pet pet){
+    public Pet editarPet(Long id, Pet pet){
         Pet object = buscarPorId(id);
 
-        object.setDono(pet.getDono());
         object.setNome(pet.getNome());
         object.setRaca(pet.getRaca());
         object.setDataNascimento(pet.getDataNascimento());
         object.setEspecie(pet.getEspecie());
 
-        repository.save(object);
-        return true;
+        return repository.save(object);
     }
 
 

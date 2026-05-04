@@ -32,7 +32,7 @@ public class ClienteService {
         }
     }
 
-    public boolean editarCliente(Long id, @NotNull Cliente c){
+    public Cliente editarCliente(Long id, @NotNull Cliente c){
         Cliente object = buscarPorId(id);
 
         object.setEmail(c.getEmail());
@@ -40,8 +40,8 @@ public class ClienteService {
         object.setSenha(c.getSenha());
         object.setTelefone(c.getTelefone());
 
-        repository.save(object);
-        return true;
+        return repository.save(object);
+
     }
 
     public Cliente buscarPoremail(String email){
