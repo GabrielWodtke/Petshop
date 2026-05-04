@@ -29,4 +29,10 @@ public class PetController {
         return ResponseEntity.ok().body(petService.editarPet(id, pet));
     }
 
+    @DeleteMapping(value = "/remove/{id}")
+    public ResponseEntity<String> deletePet(@PathVariable Long id){
+        petService.removePet(id);
+        return ResponseEntity.ok().body("Pet deletado com sucesso");
+    }
+
 }

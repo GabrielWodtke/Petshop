@@ -12,7 +12,7 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/buscar/{id}")
     public ResponseEntity<Cliente> getCliente(@PathVariable Long id){
         return ResponseEntity.ok().body(clienteService.buscarPorId(id));
     }

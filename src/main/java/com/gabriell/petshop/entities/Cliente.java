@@ -22,6 +22,6 @@ public class Cliente {
     private Long telefone;
     private String senha;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pet> pets;
 }
