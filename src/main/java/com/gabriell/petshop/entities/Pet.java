@@ -27,6 +27,6 @@ public class Pet {
     @JoinColumn(name = "cliente_id")
     private Cliente dono;
 
-    @OneToMany(mappedBy = "pet")
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
 }
