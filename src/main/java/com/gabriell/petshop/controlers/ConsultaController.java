@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Consulta")
+@RequestMapping("/consulta")
 public class ConsultaController {
     @Autowired
     ConsultaService consultaService;
@@ -15,7 +15,7 @@ public class ConsultaController {
     @PostMapping("/agendar/{id}")
     public ResponseEntity<String> agendarConsulta(@PathVariable Long id, @RequestBody Consulta consulta){
         Consulta c = consultaService.addConsulta(id, consulta);
-        return ResponseEntity.ok().body("Consulta agendada com sucesso! id: " + c.getId());
+        return ResponseEntity.status(201).body("Consulta agendada com sucesso! id: " + c.getId());
     }
 
     @GetMapping("/buscar/{id}")
@@ -31,6 +31,6 @@ public class ConsultaController {
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> removerConsulta(@PathVariable Long id){
         consultaService.removeConsulta(id);
-        return ResponseEntity.ok().body("Consulta removida com sucesso!");
+        return ResponseEntity.noContent().build();
     }
 }

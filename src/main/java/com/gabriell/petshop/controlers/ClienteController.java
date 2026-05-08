@@ -17,15 +17,15 @@ public class ClienteController {
         return ResponseEntity.ok().body(clienteService.buscarPorId(id));
     }
 
-    @GetMapping(value = "/buscarEmail")
+    @PostMapping(value = "/buscarEmail")
     public ResponseEntity<Cliente> buscarEmail(@RequestBody String email){
-        return ResponseEntity.ok().body(clienteService.buscarPoremail(email));
+        return ResponseEntity.status(201).body(clienteService.buscarPoremail(email));
     }
 
     @PostMapping(value = "/add")
     public ResponseEntity<String> addCliente(@RequestBody Cliente cliente){
         Cliente c = clienteService.addCliente(cliente);
-        return ResponseEntity.ok().body("Cliente adicionado com sucesso! id do cliente: " + c.getId());
+        return ResponseEntity.status(201).body("Cliente adicionado com sucesso! id do cliente: " + c.getId());
     }
 
     @PutMapping(value = "/update/{id}")
@@ -36,6 +36,6 @@ public class ClienteController {
     @DeleteMapping(value = "/remove/{id}")
     public ResponseEntity<Integer> removerCliente(@PathVariable Long id){
         clienteService.delete(id);
-        return ResponseEntity.ok().body(1);
+        return ResponseEntity.noContent().build();
     }
 }

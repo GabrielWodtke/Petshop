@@ -5,12 +5,15 @@ import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.repositorioes.ClienteRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class ClienteService {
+public class ClienteService implements UserDetailsService {
     @Autowired
     ClienteRepository repository;
 
@@ -46,5 +49,10 @@ public class ClienteService {
 
     public Cliente buscarPoremail(String email){
        return repository.findByemail(email).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return buscarPoremail(username);
     }
 }
