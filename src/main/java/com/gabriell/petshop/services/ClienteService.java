@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +18,12 @@ public class ClienteService implements UserDetailsService {
     @Autowired
     ClienteRepository repository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     public Cliente addCliente(Cliente cliente){
-    return repository.save(cliente);
+        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+        return repository.save(cliente);
     }
 
     public void delete(Long id){
@@ -40,7 +45,7 @@ public class ClienteService implements UserDetailsService {
 
         object.setEmail(c.getEmail());
         object.setNome(c.getNome());
-        object.setSenha(c.getSenha());
+        object.setSenha(passwordEncoder.encode(c.getSenha()));
         object.setTelefone(c.getTelefone());
 
         return repository.save(object);

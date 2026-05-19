@@ -1,5 +1,6 @@
 package com.gabriell.petshop.controlers;
 
+import com.gabriell.petshop.dtos.PetDto;
 import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.entities.Pet;
 import com.gabriell.petshop.services.PetService;
@@ -13,10 +14,10 @@ public class PetController {
     @Autowired
     PetService petService;
 
-    @PostMapping(value = "/add/{id}")
-    public ResponseEntity<String> addPet(@RequestBody Pet pet, @PathVariable Long id){
-        Pet p = petService.addPet(pet, id);
-        return ResponseEntity.status(201).body("Pet adicionado com sucesso! id do pet: " + p.getId());
+    @PostMapping(value = "/{idDono}")
+    public ResponseEntity<?> addPet(@RequestBody Pet pet, @PathVariable Long idDono){
+        Pet p = petService.addPet(pet, idDono);
+        return ResponseEntity.status(201).body(new PetDto(pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono(), pet.getDataNascimento()));
     }
 
     @GetMapping(value = "/{id}")

@@ -12,20 +12,16 @@ public class JwtUtil {
 
     private static final String SECRET = System.getenv("JWT_SECRET");
 
-    static{
-        if(SECRET == null ||  SECRET.isBlank()){
+    static {
+        if (SECRET == null || SECRET.isBlank()) {
             throw new RuntimeException("JWT_SECRET esta vazio, configure-o antes de executar.");
         }
     }
 
     private static final SecretKey SECRET_KEY =
-            Keys.hmacShaKeyFor(
-                    SECRET
-                            .getBytes()
-            );
+            Keys.hmacShaKeyFor(SECRET.getBytes());
 
     public static String gerarToken(Cliente cliente) {
-
         return Jwts.builder()
                 .subject(cliente.getUsername())
                 .claim("role", cliente.getRole())
@@ -35,31 +31,34 @@ public class JwtUtil {
     }
 
     public static String extrairUsername(String token) {
-
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
         return claims.getSubject();
     }
 
     public static String extrairRole(String token) {
-
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
         return claims.get("role", String.class);
     }
 
     public static boolean tokenValido(String token, String username) {
-
-        String usernameToken = extrairUsername(token);
-
-        return usernameToken.equals(username);
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(SECRET_KEY)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            return claims.getSubject().equals(username) &&
+                    !claims.getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

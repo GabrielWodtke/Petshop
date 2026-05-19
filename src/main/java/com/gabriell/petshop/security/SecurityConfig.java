@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -17,17 +19,22 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/cliente/registro").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/cliente").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/pets").hasRole("ADMIN")
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
+
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/cliente").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/pet").hasRole("ADMIN")
+
                         .requestMatchers("/cliente/**").hasAnyRole("ADMIN", "CLIENT")
-                        .requestMatchers("/pets/**").hasAnyRole("ADMIN", "CLIENT")
-                        .requestMatchers("/consultas/**").hasRole("ADMIN")
-                        .requestMatchers("/consultas").hasRole("ADMIN")
+
+                        .requestMatchers("/pet/**").hasAnyRole("ADMIN", "CLIENT")
+
+
+                        .requestMatchers("/consulta/**").hasRole("ADMIN")
+                        .requestMatchers("/consulta").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
@@ -35,5 +42,10 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable);
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
