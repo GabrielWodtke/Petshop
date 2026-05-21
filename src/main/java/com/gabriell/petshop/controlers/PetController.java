@@ -17,17 +17,19 @@ public class PetController {
     @PostMapping(value = "/{idDono}")
     public ResponseEntity<?> addPet(@RequestBody Pet pet, @PathVariable Long idDono){
         Pet p = petService.addPet(pet, idDono);
-        return ResponseEntity.status(201).body(new PetDto(pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono(), pet.getDataNascimento()));
+        return ResponseEntity.status(201).body(new PetDto(pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono().getNome(), pet.getDataNascimento()));
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pet> getPet(@PathVariable Long id){
-        return ResponseEntity.ok().body(petService.buscarPorId(id));
+    public ResponseEntity<?> getPet(@PathVariable Long id){
+        var pet = petService.buscarPorId(id);
+        return ResponseEntity.ok().body(new PetDto(pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono().getNome(), pet.getDataNascimento()));
     }
 
     @PutMapping(value = "/edit/{id}")
-    public ResponseEntity<Pet> editPet(@PathVariable Long id, @RequestBody Pet pet){
-        return ResponseEntity.ok().body(petService.editarPet(id, pet));
+    public ResponseEntity<?> editPet(@PathVariable Long id, @RequestBody Pet obj){
+        var pet = petService.editarPet(id, obj);
+        return ResponseEntity.ok().body(new PetDto(pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono().getNome(), pet.getDataNascimento()));
     }
 
     @DeleteMapping(value = "/remove/{id}")

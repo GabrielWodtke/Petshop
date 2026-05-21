@@ -1,5 +1,6 @@
 package com.gabriell.petshop.services;
 
+import com.gabriell.petshop.Exceptions.AutenticacaoException;
 import com.gabriell.petshop.Exceptions.DadosInvalidosExceptions;
 import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.repositorioes.ClienteRepository;
@@ -53,7 +54,7 @@ public class ClienteService implements UserDetailsService {
     }
 
     public Cliente buscarPoremail(String email){
-       return repository.findByemail(email).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+       return repository.findByemail(email).orElseThrow(() -> new AutenticacaoException("Cliente não encontrado"));
     }
 
     @Override

@@ -44,4 +44,8 @@ public class Cliente implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
+    public List<String> getPetNomes(){
+        return pets.stream().map(p -> p.getNome()).toList();
+    }
 }

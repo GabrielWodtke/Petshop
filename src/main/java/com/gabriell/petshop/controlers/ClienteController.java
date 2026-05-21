@@ -1,5 +1,6 @@
 package com.gabriell.petshop.controlers;
 
+import com.gabriell.petshop.dtos.ClienteDTO;
 import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,15 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping(value = "/buscar/{id}")
-    public ResponseEntity<Cliente> getCliente(@PathVariable Long id){
-        return ResponseEntity.ok().body(clienteService.buscarPorId(id));
+    public ResponseEntity<?> getCliente(@PathVariable Long id){
+        var cliente = clienteService.buscarPorId(id);
+        return ResponseEntity.ok().body(new ClienteDTO(cliente.getNome(), cliente.getEmail(), cliente.getSenha(), cliente.getPetNomes(), cliente.getRole()));
     }
 
     @PostMapping(value = "/buscarEmail")
-    public ResponseEntity<Cliente> buscarEmail(@RequestBody String email){
-        return ResponseEntity.status(201).body(clienteService.buscarPoremail(email));
+    public ResponseEntity<?> buscarEmail(@RequestBody String email){
+        var cliente = clienteService.buscarPoremail(email);
+        return ResponseEntity.status(201).body(new ClienteDTO(cliente.getNome(), cliente.getEmail(), cliente.getSenha(), cliente.getPetNomes(), cliente.getRole()));
     }
 
     @PostMapping(value = "/add")
@@ -29,8 +32,9 @@ public class ClienteController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<Cliente> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente){
-        return ResponseEntity.ok().body(clienteService.editarCliente(id, cliente));
+    public ResponseEntity<?> updateCliente(@PathVariable Long id, @RequestBody Cliente obj){
+        var cliente = clienteService.editarCliente(id, obj);
+        return ResponseEntity.ok().body(new ClienteDTO(cliente.getNome(), cliente.getEmail(), cliente.getSenha(), cliente.getPetNomes(), cliente.getRole()));
     }
 
     @DeleteMapping(value = "/remove/{id}")
