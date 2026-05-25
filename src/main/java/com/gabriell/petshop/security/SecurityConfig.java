@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/pet/**").hasAnyRole("ADMIN", "CLIENT")
 
 
-                        .requestMatchers("/consulta/**").hasRole("ADMIN")
+                        .requestMatchers("/consulta/**").hasAnyRole("ADMIN", "CLIENT")
                         .requestMatchers("/consulta").hasRole("ADMIN")
 
                         .anyRequest().authenticated()

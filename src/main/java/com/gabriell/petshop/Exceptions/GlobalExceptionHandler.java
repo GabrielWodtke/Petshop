@@ -30,6 +30,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(401).body(response);
     }
 
+    @ExceptionHandler(AutorizacaoException.class)
+    public ResponseEntity<Map<String, Object>> handleAutorizacaoExpection(AutorizacaoException e){
+        Map<String, Object> response = new HashMap<>();
+        response.put("Status", 403);
+        response.put("Mensagem", e.getMessage());
+        response.put("timestamp", LocalDateTime.now());
+        return ResponseEntity.status(403).body(response);
+    }
+
     public ResponseEntity<Map<String, Object>> handleRuntimeException(RuntimeException e){
         Map<String, Object> response = new HashMap<>();
         response.put("Status", 404);
