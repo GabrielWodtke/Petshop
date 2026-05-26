@@ -1,11 +1,13 @@
 package com.gabriell.petshop.dtos;
 
-import com.gabriell.petshop.entities.Cliente;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record PetDto(
+public record RespostaPetDTO(
+        @NotNull
+        Long id,
         @NotBlank
         String nome,
         @NotBlank
@@ -14,6 +16,7 @@ public record PetDto(
         String especie,
         @NotBlank
         String dono,
-        LocalDate dataNascimento) {
+        LocalDate dataNascimento
 
+) {
 }

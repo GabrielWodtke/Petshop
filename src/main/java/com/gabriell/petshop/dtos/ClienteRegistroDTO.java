@@ -1,19 +1,18 @@
 package com.gabriell.petshop.dtos;
 
-import com.gabriell.petshop.entities.Pet;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
-public record ClienteDTO(
+public record ClienteRegistroDTO (
+        @NotBlank
         String nome,
         @Email
         String email,
+        @NotNull
+        Long telefone,
         @NotBlank(message = "A senha não pode ser vazia")
         @Size(min = 6, message = "A senha precisa ter no minímo 6 caracteres")
-        String senha,
-        List<String> pets,
-        String role
-) { }
+        String senha
+        ){}

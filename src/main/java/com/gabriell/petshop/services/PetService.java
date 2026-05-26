@@ -3,6 +3,7 @@ package com.gabriell.petshop.services;
 
 import com.gabriell.petshop.Exceptions.AutorizacaoException;
 import com.gabriell.petshop.Exceptions.DadosInvalidosExceptions;
+import com.gabriell.petshop.dtos.PetDto;
 import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.entities.Pet;
 import com.gabriell.petshop.repositorioes.ClienteRepository;
@@ -25,9 +26,14 @@ public class PetService {
     @Autowired
     ClienteService clienteService;
 
-    public Pet addPet(Pet pet, Long clienteId){
+    public Pet addPet(PetDto obj, Long clienteId){
+        Pet pet = new Pet();
         Cliente cliente = repositoryCliente.getReferenceById(clienteId);
         pet.setDono(cliente);
+        pet.setNome(obj.nome());
+        pet.setRaca(obj.raca());
+        pet.setEspecie(obj.especie());
+        pet.setDataNascimento(obj.dataNascimento());
         return repository.save(pet);
     }
 

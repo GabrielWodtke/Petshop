@@ -2,6 +2,7 @@ package com.gabriell.petshop.services;
 
 import com.gabriell.petshop.Exceptions.AutorizacaoException;
 import com.gabriell.petshop.Exceptions.DadosInvalidosExceptions;
+import com.gabriell.petshop.dtos.ConsultaDto;
 import com.gabriell.petshop.entities.Consulta;
 import com.gabriell.petshop.entities.Pet;
 import com.gabriell.petshop.repositorioes.ClienteRepository;
@@ -33,19 +34,12 @@ public class ConsultaService {
     @Autowired
     PetService petService;
 
-    public Consulta addConsulta(Long petiD, Consulta consulta){
-        Pet pet = petRepository.getReferenceById(petiD);
-
+    public Consulta addConsulta(Long petiD, ConsultaDto obj){
+        Pet pet = petService.buscarPorId(petiD);
+        Consulta consulta = new Consulta(obj.descricao(), obj.diagnostico(), obj.tratamento(), obj.data());
         consulta.setPet(pet);
         return repository.save(consulta);
     }
-
-    /*public List<Consulta> listarConsultasPet(Long petId){
-        Pet pet = petService.buscarPorId(petId);
-        for(Consulta c : pet.getConsultas()){
-            c.get;
-        }
-    }*/
 
     public boolean removeConsulta(Long id){
         Consulta object = buscaPorId(id);
@@ -65,13 +59,13 @@ public class ConsultaService {
         }
     }
 
-    public Consulta attConsulta(Consulta consulta, Long id){
+    public Consulta attConsulta(ConsultaDto consulta, Long id){
         Consulta object = buscaPorId(id);
 
-        object.setData(consulta.getData());
-        object.setDescricao(consulta.getDescricao());
-        object.setTratamento(consulta.getTratamento());
-        object.setDiagnostico(consulta.getDiagnostico());
+        object.setData(consulta.data());
+        object.setDescricao(consulta.descricao());
+        object.setTratamento(consulta.tratamento());
+        object.setDiagnostico(consulta.diagnostico());
 
         return repository.save(object);
     }

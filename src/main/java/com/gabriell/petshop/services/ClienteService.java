@@ -2,6 +2,7 @@ package com.gabriell.petshop.services;
 
 import com.gabriell.petshop.Exceptions.AutorizacaoException;
 import com.gabriell.petshop.Exceptions.DadosInvalidosExceptions;
+import com.gabriell.petshop.dtos.ClienteRegistroDTO;
 import com.gabriell.petshop.entities.Cliente;
 import com.gabriell.petshop.repositorioes.ClienteRepository;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +26,13 @@ public class ClienteService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public Cliente addCliente(Cliente cliente) {
-        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+    public Cliente addCliente(ClienteRegistroDTO obj) {
+        Cliente cliente = new Cliente();
+        cliente.setEmail(obj.email());
+        cliente.setNome(obj.nome());
+        cliente.setTelefone(obj.telefone());
+        cliente.setSenha(passwordEncoder.encode(obj.senha()));
+        cliente.setRole("CLIENTE");
         return repository.save(cliente);
     }
 
@@ -61,14 +67,14 @@ public class ClienteService implements UserDetailsService {
         }
     }
 
-    public Cliente editarCliente(Long id, @NotNull Cliente c) {
+    public Cliente editarCliente(Long id, @NotNull ClienteRegistroDTO c) {
         verificaoCliente(id);
         Cliente object = buscarPorId(id);
 
-        object.setEmail(c.getEmail());
-        object.setNome(c.getNome());
-        object.setSenha(passwordEncoder.encode(c.getSenha()));
-        object.setTelefone(c.getTelefone());
+        object.setEmail(c.email());
+        object.setNome(c.nome());
+        object.setSenha(passwordEncoder.encode(c.senha()));
+        object.setTelefone(c.telefone());
 
         return repository.save(object);
     }

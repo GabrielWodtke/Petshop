@@ -1,5 +1,6 @@
 package com.gabriell.petshop.entities;
 
+import com.gabriell.petshop.dtos.ConsultaDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 public class Consulta {
 
     @Id
@@ -26,4 +26,11 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
+
+    public Consulta(String descricao, String diagnostico, String tratamento, LocalDateTime data) {
+        this.descricao = descricao;
+        this.data = data;
+        this.diagnostico = diagnostico;
+        this.tratamento = tratamento;
+    }
 }
