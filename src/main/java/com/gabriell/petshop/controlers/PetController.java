@@ -34,7 +34,7 @@ public class PetController {
     }
 
     @PutMapping(value = "/edit/{id}")
-    public ResponseEntity<?> editPet(@PathVariable Long id, @RequestBody Pet obj){
+    public ResponseEntity<?> editPet(@PathVariable Long id, @RequestBody @Valid PetDto obj){
         var pet = petService.editarPet(id, obj);
         return ResponseEntity.ok().body(new RespostaPetDTO(pet.getId(), pet.getNome(), pet.getRaca(), pet.getEspecie(), pet.getDono().getNome(), pet.getDataNascimento()));
     }

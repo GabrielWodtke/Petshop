@@ -12,8 +12,6 @@ public record PetDto(
         String raca,
         @NotBlank
         String especie,
-        @NotBlank
-        String dono,
         LocalDate dataNascimento) {
 
 }

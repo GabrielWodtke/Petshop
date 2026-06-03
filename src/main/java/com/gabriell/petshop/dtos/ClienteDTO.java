@@ -9,10 +9,7 @@ import java.util.List;
 
 public record ClienteDTO(
         String nome,
-        @Email
         String email,
-        @NotBlank(message = "A senha não pode ser vazia")
-        @Size(min = 6, message = "A senha precisa ter no minímo 6 caracteres")
         String senha,
         List<String> pets,
         String role

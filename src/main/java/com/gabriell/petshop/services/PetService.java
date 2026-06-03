@@ -56,13 +56,13 @@ public class PetService {
         return null;
     }
 
-    public Pet editarPet(Long id, Pet pet){
+    public Pet editarPet(Long id, PetDto pet){
         Pet object = buscarPorId(id);
         verificaoCliente(object.getDono().getId());
-        object.setNome(pet.getNome());
-        object.setRaca(pet.getRaca());
-        object.setDataNascimento(pet.getDataNascimento());
-        object.setEspecie(pet.getEspecie());
+        object.setNome(pet.nome());
+        object.setRaca(pet.raca());
+        object.setDataNascimento(pet.dataNascimento());
+        object.setEspecie(pet.especie());
 
         return repository.save(object);
     }
